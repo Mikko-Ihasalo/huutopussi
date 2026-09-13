@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://qiqrxgxu2tyu"]
+
+[ext_resource type="PackedScene" uid="uid://dv4d2jkalfq53" path="res://scenes/card.tscn" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://drlkpq6kwyagv" path="res://scenes/card_manager.tscn" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://dppwuatw2r0mm" path="res://scenes/deck.tscn" id="3_sugp2"]
+
+[node name="main" type="Node2D" unique_id=13089037]
+
+[node name="card" parent="." unique_id=9501052 instance=ExtResource("1_o5qli")]
+position = Vector2(61, 67)
+
+[node name="cardManager" parent="." unique_id=1722341309 instance=ExtResource("2_0wfyh")]
+position = Vector2(9.409126, 49.5929)
+
+[node name="deck" parent="." unique_id=376537417 instance=ExtResource("3_sugp2")]
+position = Vector2(639, 143)

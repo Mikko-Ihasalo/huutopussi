@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dv4d2jkalfq53"]
+
+[ext_resource type="Script" uid="uid://bt640rwt4qgq6" path="res://scripts/card.gd" id="1_6u4wf"]
+[ext_resource type="Script" uid="uid://c8kfgbdh8vr3w" path="res://scripts/card_image_manager.gd" id="1_d81rb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hecaj"]
+size = Vector2(89, 122)
+
+[node name="card" type="Node2D" unique_id=9501052]
+script = ExtResource("1_6u4wf")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1440548143]
+script = ExtResource("1_d81rb")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1825707711]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1416690279]
+shape = SubResource("RectangleShape2D_hecaj")
