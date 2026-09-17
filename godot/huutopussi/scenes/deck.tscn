@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://dppwuatw2r0mm"]
 
 [ext_resource type="Texture2D" uid="uid://s4pkovvrhirp" path="res://assets/cards/Card_DeckA-88x140.png" id="1_sdhao"]
+[ext_resource type="Script" uid="uid://c6y10j2jxdks4" path="res://scripts/deck.gd" id="2_deck"]
 
 [node name="deck" type="Node2D" unique_id=376537417]
+script = ExtResource("2_deck")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1002124080]
 texture = ExtResource("1_sdhao")

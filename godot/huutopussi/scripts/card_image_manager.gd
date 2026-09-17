@@ -2,13 +2,14 @@ extends Sprite2D
 
 @export var card_index: int = 5
 @export var card_suit : String = "clubs"
+var face_texture: Texture2D
 
 const CARD_WIDTH = 88
 const CARD_HEIGHT = 124
 const SUIT_IMAGE_PATH_MAP = {
 	"clubs":"res://assets/cards/clubs.png",
 	"hearts":"res://assets/cards/hearts.png",
-	"spads":"res://assets/cards/spades.png",
+	"spades":"res://assets/cards/spades.png",
 	"diamonds":"res://assets/cards/diamonds.png"
 }
 
@@ -27,7 +28,11 @@ func _ready():
 		CARD_HEIGHT
 	)
 
-	texture = atlas
+	face_texture = atlas
+	texture = face_texture
+
+func show_face() -> void:
+	texture = face_texture
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -32,7 +32,14 @@ func raycast_check_for_card():
 	return null
 func _ready() -> void:
 	screen_size = get_viewport_rect().size
-	player_hand_reference = $"../playerHand"
+	call_deferred("find_player_hand")
+
+func find_player_hand() -> void:
+	player_hand_reference = get_node_or_null("../deck/playerHand")
+	if not player_hand_reference:
+		return
+	for card in player_hand_reference.cards:
+		connect_card_signals(card)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -48,8 +55,10 @@ func _process(delta: float) -> void:
 				)
 			)
 func connect_card_signals(card):
-	card.connect("hovered", on_hovered_card)
-	card.connect("hovered_off", on_hovered_off_card)
+	if not card.hovered.is_connected(on_hovered_card):
+		card.hovered.connect(on_hovered_card)
+	if not card.hovered_off.is_connected(on_hovered_off_card):
+		card.hovered_off.connect(on_hovered_off_card)
 
 func on_hovered_card(card):
 	if !is_hovering_on_card:
@@ -83,9 +92,14 @@ func get_card_with_highest_z_index(cards):
 	return highest_z_card
 	
 func start_drag(card):
+	if not player_hand_reference or not player_hand_reference.has_card(card):
+		return
 	card_being_dragged = card
 	card.scale = Vector2(1,1)
 func finish_drag():
+	if not player_hand_reference:
+		card_being_dragged = null
+		return
 	card_being_dragged.scale = Vector2(1.05,1.05)
 	var card_slot_found = raycast_check_for_cardslot()
 	if card_slot_found and not card_slot_found.card_in_slot:

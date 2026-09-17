@@ -1,5 +1,7 @@
 # Huutopussi
 
+In English below!
+
 Huomio lukijalle! Pelin säännöt ovat hieman muutettuja alkuperäisestä, jotta ne noudattaisivat Matrixin &mdash; Matematiikan opiskelijaryhmä Matrix ry on Helsingin yliopiston matematiikan opiskelijoiden ainejärjestö &mdash; opiskelijahuoneessa Komerossa pelattua versiota. 
 
 ## Alkuvalmistelut
@@ -58,17 +60,18 @@ Jos pelaaja ei voita edes yhtä tikkiä, hän menettää huudon verran pisteitä
 
 https://www.lautapeliopas.fi/saannot/huutopussi/
 
-Huutopussi
+
+# Huutopussi
 
 Note to the reader! The rules of the game have been slightly modified from the original so that they follow the version played in Komero, the student room of Matrix — Mathematics Student Association Matrix ry is the student organization for mathematics students at the University of Helsinki.
 
-Initial Setup
+## Initial Setup
 
 Huutopussi is a good three-player game, so first, the rules for three-player games. A reduced deck is used to play Huutopussi. From a standard 52-card deck, the twos, threes, fours, and fives are removed. This leaves 36 cards. The ranking of the cards differs slightly from what is customary. The ace is the highest card, followed by the ten. After that, the order is normal: A, T, K, Q, J, 9, 8, 7, 6.
 
 The cards are dealt evenly except for three cards. Each player receives eleven cards; the three remaining cards form the devil's pile, which is not looked at. The cards are dealt face down, and players may not show their own cards to the others.
 
-Auction
+## Auction
 
 The deal begins with an auction. During the auction, players take turns bidding the number of points they promise to score. The winner, i.e. the player who makes the highest bid, receives the cards in the devil's pile and the right to lead.
 
@@ -78,7 +81,7 @@ The bidder takes the devil's pile. It is shown to the other players, who may eit
 
 The bidder can collect only the number of points they bid during the deal. After looking at the devil's pile, the bidder may still increase their bid if they believe they can score more points. If the bidder fails to collect the number of points they promised, they receive negative points. Scoring is explained in more detail below.
 
-Playing the Game
+## Playing the Game
 
 Huutopussi is a trick-taking game. Players take turns playing one card to the trick, and the player who plays the highest-value card wins the trick. The winner of the trick leads the next trick. The purpose of the game is to collect points, which are obtained, among other things, by winning tricks.
 
@@ -92,11 +95,11 @@ If a player has neither the required suit nor a trump, they may play any card. I
 
 The trick is won by the highest trump. If there are no trumps, the trick is won by the highest card played in the suit determined by the opening card. A card played in a suit other than the opening suit or trump cannot win the trick.
 
-Making a Trump Suit
+## Making a Trump Suit
 
 At the beginning of the deal, no trump suit has been defined; one must be established during play. A player can make a suit trump if they hold both the king and queen of that suit. After winning a trick, a player may declare their trump suit. That suit then remains trump until a different suit is made trump. A particular suit may only be made trump once during a deal.
 
-Scoring
+## Scoring
 
 When all the cards have been played, the points are counted. Points are awarded as follows:
 
@@ -115,9 +118,6 @@ Thus, there are 160 points available, plus the points for the trump suit. If the
 
 If a player does not win even a single trick, they lose points equal to the amount of the bid. If the bidder does not win a single trick (unlikely, but possible), they lose twice the amount of their bid.
 
-Source
+### Source
 
-{"fallbackMarkdown":"Lautapeliopas — Huutopussi rules
-","reference":{"matched_text":"","prefix":null,"start_idx":5043,"end_idx":5130,"safe_urls":[],"refs":[],"alt":"Lautapeliopas — Huutopussi rules
-","prompt_text":"Lautapeliopas — Huutopussi rules
-","type":"url","title":"Lautapeliopas — Huutopussi rules","item":{"title":"Lautapeliopas — Huutopussi rules","url":"https://www.lautapeliopas.fi/saannot/huutopussi/?utm_source=chatgpt.com","attribution":"lautapeliopas.fi","pub_date":null,"snippet":null,"attribution_segments":null,"supporting_websites":null,"refs":[],"hue":null,"attributions":null},"layout":null,"logo":null},"showLoginRequiredCard":false}
+https://www.lautapeliopas.fi/saannot/huutopussi/
