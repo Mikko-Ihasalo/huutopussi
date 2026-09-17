@@ -8,13 +8,13 @@ Huomio lukijalle! Pelin säännöt ovat hieman muutettuja alkuperäisestä, jott
 
 Huutopussi on hyvä kolminpeli, joten ensin kolminpelin säännöt. Huutopussin pelaamiseen käytetään vajaata pakkaa. Tavallisesta 52 kortin pakasta poistetaan kakkoset, kolmoset, neloset ja viitoset. Pakkaan jää siis 36 korttia. Korttien arvojärjestys poikkeaa hieman totutusta. Ässä on korkein kortti, sitten kymppi. Sen jälkeen järjestys on normaali: A, T, K, Q, J, 9, 8, 7, 6.
 
-Kortit jaetaan tasan kolmea korttia lukuunottamatta. Kukin pelaaja saa yksitoista korttia; kolme jäljelle jäävää korttia muodostavat pirunpakan, joita ei katsota. Kortit jaetaan kuvapuoli alaspäin, eikä omia korttejaan saa näyttää muille.
+	Kortit jaetaan tasan kuutta korttia lukuunottamatta. Kukin pelaaja saa kymmenen korttia; kuusi jäljelle jäävää korttia muodostavat pirunpakan, joita ei katsota. Kortit jaetaan kuvapuoli alaspäin, eikä omia korttejaan saa näyttää muille.
 
 ## Huutokauppa
 
 Jako alkaa huutokaupalla. Siinä pelaajat tarjoavat vuorotellen pisteitä, jotka lupaavat tehdä. Voittaja, eli suurimman lupauksen tehnyt saa pirunpakan kortit ja aloitusoikeuden. Tarjousvuoro alkaa jakajasta ja kiertää myötäpäivään. Vuorollaan pelaaja voi joko luvata enemmän kuin edellinen huutaja tai luopua. Luopumisen jälkeen ei saa enää huutaa. Ensimmäisen tarjouksen on oltava tasakymmeniä ja korotusten vähintään viisi pistettä. Huutamiseen ei saa osallistua, jos pelaajalla on vähemmän kuin -500 pistettä.
 
-Huutaja saa pirunpakan itselleen. Se näytetään muille pelaajille, jotka voivat joko harmitella tai ilkkua, riippuen pirunpakan sisällöstä. Sen jälkeen huutaja laittaa salaa muilta pelaajilta kolme korttia kädestään syrjään, niin että hänellä on taas 11 korttia kädessään. Syrjään laitetut kortit lasketaan pisteenlaskussa mukaan. Ässiä ja kymppejä ei saa kuitenkaan laittaa pois.
+	Huutaja saa pirunpakan itselleen. Se näytetään muille pelaajille, jotka voivat joko harmitella tai ilkkua, riippuen pirunpakan sisällöstä. Sen jälkeen huutaja laittaa salaa muilta pelaajilta kuusi korttia kädestään syrjään, niin että hänellä on taas kymmenen korttia kädessään. Syrjään laitetut kortit lasketaan pisteenlaskussa mukaan. Ässiä ja kymppejä ei saa kuitenkaan laittaa pois.
 
 Huutaja voi kerätä jaossa vain lupaamansa pisteet. Pirunpakan katsottuaan huutaja voi vielä korottaa huutoaan, jos arvelee saavansa enemmän pisteitä. Jos huutaja ei kerää lupaamaansa määrää pisteitä, saa hän miinuksia. Pisteidenlasku selitetään tarkemmin alempana.
 
@@ -69,7 +69,7 @@ Note to the reader! The rules of the game have been slightly modified from the o
 
 Huutopussi is a good three-player game, so first, the rules for three-player games. A reduced deck is used to play Huutopussi. From a standard 52-card deck, the twos, threes, fours, and fives are removed. This leaves 36 cards. The ranking of the cards differs slightly from what is customary. The ace is the highest card, followed by the ten. After that, the order is normal: A, T, K, Q, J, 9, 8, 7, 6.
 
-The cards are dealt evenly except for three cards. Each player receives eleven cards; the three remaining cards form the devil's pile, which is not looked at. The cards are dealt face down, and players may not show their own cards to the others.
+The cards are dealt evenly except for 6 cards. Each player receives ten cards; the six remaining cards form the devil's pile, which is not looked at. The cards are dealt face down, and players may not show their own cards to the others.
 
 ## Auction
 
@@ -77,7 +77,7 @@ The deal begins with an auction. During the auction, players take turns bidding 
 
 The bidding starts with the dealer and proceeds clockwise. On their turn, a player may either bid more than the previous bidder or pass. Once a player passes, they may not bid again. The first bid must be a multiple of ten, and increases must be at least five points. A player may not participate in the bidding if they have fewer than -500 points.
 
-The bidder takes the devil's pile. It is shown to the other players, who may either lament or gloat, depending on its contents. The bidder then secretly sets aside three cards from their hand, so that they again have 11 cards in their hand. The set-aside cards are included when scoring. However, aces and tens may not be discarded.
+The bidder takes the devil's pile. It is shown to the other players, who may either lament or gloat, depending on its contents. The bidder then secretly sets aside six cards from their hand, so that they again have ten cards in their hand. The set-aside cards are included when scoring. However, aces and tens may not be discarded.
 
 The bidder can collect only the number of points they bid during the deal. After looking at the devil's pile, the bidder may still increase their bid if they believe they can score more points. If the bidder fails to collect the number of points they promised, they receive negative points. Scoring is explained in more detail below.
 

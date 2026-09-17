@@ -16,6 +16,9 @@ func add_card_to_hand(card: Node2D) -> void:
 	else:
 		add_child(card)
 	cards.append(card)
+	card.visible_to_all = false
+	card.legal_card = false
+	card.activate_bloom()
 	set_card_visibility(card)
 	arrange_cards()
 
@@ -26,6 +29,15 @@ func remove_card_from_hand(card: Node2D) -> void:
 
 func clear_cards() -> void:
 	cards.clear()
+
+func set_legal_cards(legal_cards: Array[Node2D]) -> void:
+	for card in cards:
+		card.legal_card = not is_opponent and legal_cards.has(card)
+		card.activate_bloom()
+
+func refresh_card_visibility() -> void:
+	for card in cards:
+		set_card_visibility(card)
 
 func has_card(card: Node2D) -> bool:
 	return cards.has(card)

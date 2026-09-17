@@ -33,16 +33,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		deal_cards()
 
 func create_piles() -> void:
-	var hand_container = get_node("../playerHands")
-	for hand in hand_container.get_children():
-		if hand.leftover_pile:
-			assert(leftover_hand == null)
-			leftover_hand = hand
-		else:
-			hands.append(hand)
+	leftover_hand = get_node_or_null("../piles/left_over_pile")
+	var player_container = get_node_or_null("../Players")
+	assert(leftover_hand != null)
+	assert(player_container != null)
+	for player in player_container.get_children():
+		hands.append(player.get_node("Hand"))
 
 	assert(hands.size() == PLAYER_COUNT)
-	assert(leftover_hand != null)
 
 func create_deck() -> void:
 	for suit in SUITS:

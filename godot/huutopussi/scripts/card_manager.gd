@@ -1,12 +1,13 @@
 extends Node2D
 
 const COLLISION_MASK_CARD = 1
-const COLLISION_MASK_CARD_SLOT = 2
-
 var screen_size
 var card_being_dragged 
-var is_hovering_on_card
+var is_hovering_on_card: bool = false
 var player_hand_reference
+var game_engine_reference
+var played_cards_reference
+var played_cards: Array[Node2D] = []
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -35,11 +36,27 @@ func _ready() -> void:
 	call_deferred("find_player_hand")
 
 func find_player_hand() -> void:
-	player_hand_reference = get_node_or_null("../deck/playerHand")
+	await get_tree().process_frame
+	player_hand_reference = get_node_or_null("../Players/Human/Hand")
 	if not player_hand_reference:
 		return
 	for card in player_hand_reference.cards:
 		connect_card_signals(card)
+	game_engine_reference = get_node_or_null("../gameEngine")
+	played_cards_reference = get_node_or_null("../playedCards")
+	if game_engine_reference:
+		if not game_engine_reference.round_started.is_connected(update_legal_cards):
+			game_engine_reference.round_started.connect(update_legal_cards)
+		if not game_engine_reference.turn_changed.is_connected(_on_turn_changed):
+			game_engine_reference.turn_changed.connect(_on_turn_changed)
+		update_legal_cards()
+
+func _on_turn_changed(_player_id: int) -> void:
+	update_legal_cards()
+
+func update_legal_cards() -> void:
+	if game_engine_reference and player_hand_reference:
+		player_hand_reference.set_legal_cards(game_engine_reference.get_playable_cards(0))
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -68,7 +85,7 @@ func on_hovered_off_card(card):
 	if !card_being_dragged:
 		highlight_card(card,false)
 		var new_card_hovered = raycast_check_for_card()
-		if new_card_hovered:
+		if new_card_hovered and player_hand_reference.has_card(new_card_hovered):
 			highlight_card(new_card_hovered,true)
 		else:
 			is_hovering_on_card = false
@@ -92,33 +109,18 @@ func get_card_with_highest_z_index(cards):
 	return highest_z_card
 	
 func start_drag(card):
-	if not player_hand_reference or not player_hand_reference.has_card(card):
+	if not player_hand_reference or not player_hand_reference.has_card(card) or not card.legal_card:
 		return
 	card_being_dragged = card
 	card.scale = Vector2(1,1)
 func finish_drag():
-	if not player_hand_reference:
+	if not player_hand_reference or not game_engine_reference or not played_cards_reference:
 		card_being_dragged = null
 		return
-	card_being_dragged.scale = Vector2(1.05,1.05)
-	var card_slot_found = raycast_check_for_cardslot()
-	if card_slot_found and not card_slot_found.card_in_slot:
-		player_hand_reference.remove_card_from_hand(card_being_dragged)
-		card_being_dragged.position = card_slot_found.position
-		card_being_dragged.get_node("Area2D/CollisionShape2D").disabled = true
-		card_slot_found.card_in_slot = true
-	else: 
-		player_hand_reference.add_card_to_hand(card_being_dragged)
+	var played_card = card_being_dragged
 	card_being_dragged = null
-			
-func raycast_check_for_cardslot():
-	var space_state = get_world_2d().direct_space_state
-	var parameters = PhysicsPointQueryParameters2D.new()
-	parameters.position = get_global_mouse_position()
-	parameters.collide_with_areas = true
-	parameters.collision_mask = COLLISION_MASK_CARD_SLOT
-	var result = space_state.intersect_point(parameters)
-	if result.size() > 0:
-		return result[0].collider.get_parent()
-	return null
+	if game_engine_reference.play_card(0, played_card):
+		update_legal_cards()
+	else:
+		player_hand_reference.add_card_to_hand(played_card)
 	

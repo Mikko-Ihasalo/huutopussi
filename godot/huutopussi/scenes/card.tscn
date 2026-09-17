@@ -6,6 +6,14 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hecaj"]
 size = Vector2(89, 122)
 
+[sub_resource type="Environment" id="Environment_y520c"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 0.46
+glow_bloom = 0.27
+glow_hdr_threshold = 0.55
+glow_hdr_scale = 0.85
+
 [node name="card" type="Node2D" unique_id=9501052]
 script = ExtResource("1_6u4wf")
 
@@ -16,3 +24,6 @@ script = ExtResource("1_d81rb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1416690279]
 shape = SubResource("RectangleShape2D_hecaj")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1468150130]
+environment = SubResource("Environment_y520c")

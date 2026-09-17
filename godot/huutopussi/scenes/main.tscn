@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://qiqrxgxu2tyu"]
 
-[ext_resource type="PackedScene" uid="uid://rcfjkil25j1o" path="res://scenes/hand.tscn" id="1_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://drlkpq6kwyagv" path="res://scenes/card_manager.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://dppwuatw2r0mm" path="res://scenes/deck.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://xu11vbqia61x" path="res://scenes/game_engine.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://rcfjkil25j1o" path="res://scenes/hand.tscn" id="5_hand"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="5_tbgi4"]
 
 [node name="main" type="Node2D" unique_id=13089037]
 
@@ -10,22 +12,32 @@
 position = Vector2(-173, -92)
 
 [node name="deck" parent="." unique_id=376537417 instance=ExtResource("3_sugp2")]
-position = Vector2(132, 56)
+position = Vector2(-147, -97)
 
-[node name="playerHands" type="Node" parent="." unique_id=784136598]
+[node name="piles" type="Node" parent="." unique_id=784136598]
 
-[node name="hand3" parent="playerHands" unique_id=1178090175 instance=ExtResource("1_jyhfs")]
-position = Vector2(746, 104)
-is_opponent = true
-show_opponent_cards = true
-
-[node name="hand2" parent="playerHands" unique_id=358096004 instance=ExtResource("1_jyhfs")]
-position = Vector2(800, 543)
-is_opponent = true
-
-[node name="hand1" parent="playerHands" unique_id=1805928361 instance=ExtResource("1_jyhfs")]
-position = Vector2(210, 550)
-
-[node name="left_over_pile" parent="playerHands" unique_id=1392587925 instance=ExtResource("1_jyhfs")]
-position = Vector2(373, 312)
+[node name="left_over_pile" parent="piles" unique_id=1392587925 instance=ExtResource("5_hand")]
+position = Vector2(54, 203)
 leftover_pile = true
+
+[node name="gameEngine" parent="." unique_id=911433418 instance=ExtResource("4_jyhfs")]
+
+[node name="playedCards" type="Node2D" parent="." unique_id=104001350]
+position = Vector2(335, 325)
+
+[node name="Players" type="Node" parent="." unique_id=905905634]
+
+[node name="Human" parent="Players" unique_id=113920973 instance=ExtResource("5_tbgi4")]
+position = Vector2(64, 596)
+
+[node name="DummyAI1" parent="Players" unique_id=216651099 instance=ExtResource("5_tbgi4")]
+position = Vector2(633, 456)
+player_id = 1
+control_mode = 1
+is_opponent = true
+
+[node name="DummyAI2" parent="Players" unique_id=1379424052 instance=ExtResource("5_tbgi4")]
+position = Vector2(480, 136)
+player_id = 2
+control_mode = 1
+is_opponent = true
