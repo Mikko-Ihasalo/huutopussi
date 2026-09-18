@@ -79,9 +79,10 @@ func _play_ai_turn() -> void:
 	if game_engine.cumulative_points[game_engine.current_player] <= -500:
 		game_engine.pass_auction(game_engine.current_player)
 		return
-	var maximum_bid: int = 80 + game_engine.current_player * 20
-	if game_engine.highest_bid < maximum_bid and game_engine.highest_bid + 5 < 500:
-		var amount : int = 10 if game_engine.highest_bid == 0 else game_engine.highest_bid + 5
+	var player = get_node_or_null("../Players").get_child(game_engine.current_player)
+	var ai_controller = player.get_node_or_null("DummyAi") if player else null
+	var amount: int = ai_controller.choose_bid(game_engine, game_engine.current_player) if ai_controller and ai_controller.has_method("choose_bid") else -1
+	if amount > game_engine.highest_bid and amount < 500:
 		game_engine.place_bid(game_engine.current_player, amount)
 	else:
 		game_engine.pass_auction(game_engine.current_player)

@@ -119,7 +119,9 @@ func _continue_after_trick() -> void:
 	if legal_suits.is_empty():
 		game_engine.continue_after_trick(player_id)
 	elif control_mode == ControlMode.DUMMY_AI:
-		game_engine.declare_trump(player_id, legal_suits[0])
+		var suit: StringName = ai_controller.choose_trump(game_engine, player_id)
+		if suit != &"":
+			game_engine.declare_trump(player_id, suit)
 
 func _play_ai_turn() -> void:
 	if not game_engine or game_engine.phase != &"playing" or game_engine.current_player != player_id:

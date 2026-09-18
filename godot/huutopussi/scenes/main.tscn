@@ -4,9 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://dppwuatw2r0mm" path="res://scenes/deck.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://xu11vbqia61x" path="res://scenes/game_engine.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://rcfjkil25j1o" path="res://scenes/hand.tscn" id="5_hand"]
-[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://deddtvy12w5at" path="res://scenes/player.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://jy8jdstmwka2" path="res://scenes/auction.tscn" id="6_auction"]
 [ext_resource type="PackedScene" uid="uid://osmj4fkblsim" path="res://scenes/hand_creation.tscn" id="6_o6xl0"]
+[ext_resource type="Script" uid="uid://b4y15vugwnotr" path="res://scripts/trump_display.gd" id="7_trump_display"]
+[ext_resource type="Script" uid="uid://d1aupjjgq6t5r" path="res://scripts/victory_screen.gd" id="8_victory_screen"]
 
 [node name="main" type="Node2D" unique_id=13089037]
 
@@ -20,9 +22,29 @@ position = Vector2(-147, -97)
 
 [node name="left_over_pile" parent="piles" unique_id=1392587925 instance=ExtResource("5_hand")]
 position = Vector2(757, 756)
+is_opponent = true
 leftover_pile = true
 
 [node name="gameEngine" parent="." unique_id=911433418 instance=ExtResource("4_jyhfs")]
+
+[node name="TrumpDisplay" type="Label" parent="." unique_id=183046774]
+offset_left = 835.0
+offset_top = 24.0
+offset_right = 1085.0
+offset_bottom = 58.0
+theme_override_font_sizes/font_size = 24
+text = "Trump: None"
+horizontal_alignment = 1
+script = ExtResource("7_trump_display")
+
+[node name="VictoryScreen" type="Control" parent="." unique_id=208465391]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_victory_screen")
 
 [node name="Auction" parent="." unique_id=243557145 instance=ExtResource("6_auction")]
 offset_left = 383.0

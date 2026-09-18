@@ -14,6 +14,7 @@ signal turn_changed(player_id: int)
 signal trick_completed(winner_id: int, trick: Array)
 signal trump_changed(suit: StringName, player_id: int)
 signal round_completed(round_points: Array, cumulative_points: Array)
+signal game_won(winner_id: int, cumulative_points: Array)
 
 const PLAYER_COUNT = 3
 const HAND_SIZE = 10
@@ -59,6 +60,7 @@ var trump_maker: int = -1
 var declared_trump_suits: Array[StringName] = []
 var pending_trump_player: int = -1
 var auction_active: Array[bool] = [true, true, true]
+var auction_history: Array[Dictionary] = []
 var highest_bid: int = 0
 var highest_bidder: int = -1
 var hand_creation_player: int = -1
@@ -97,6 +99,7 @@ func start_round(player_hands: Array, leader: int = 0) -> bool:
 	pending_trump_player = -1
 	phase = &"auction"
 	auction_active = [true, true, true]
+	auction_history.clear()
 	highest_bid = 0
 	highest_bidder = -1
 	round_started.emit()
@@ -115,6 +118,7 @@ func place_bid(player_id: int, amount: int) -> bool:
 		return false
 	highest_bid = amount
 	highest_bidder = player_id
+	auction_history.append({"player_id": player_id, "action": &"bid", "amount": amount})
 	_advance_auction()
 	return true
 
@@ -122,8 +126,34 @@ func pass_auction(player_id: int) -> bool:
 	if phase != &"auction" or player_id != current_player or not auction_active[player_id]:
 		return false
 	auction_active[player_id] = false
+	auction_history.append({"player_id": player_id, "action": &"pass", "amount": 0})
 	_advance_auction()
 	return true
+
+func get_bidding_state(player_id: int) -> Dictionary:
+	return {
+		"phase": phase,
+		"player_id": player_id,
+		"current_player": current_player,
+		"highest_bid": highest_bid,
+		"highest_bidder": highest_bidder,
+		"auction_active": auction_active.duplicate(),
+		"auction_history": auction_history.duplicate(true),
+		"cards": hands[player_id].duplicate() if _is_valid_player(player_id) else []
+	}
+
+func get_hand_creation_state(player_id: int) -> Dictionary:
+	var other_players_cards: Array[Array] = []
+	for other_player_id in PLAYER_COUNT:
+		if other_player_id != player_id:
+			other_players_cards.append(hands[other_player_id].duplicate())
+	return {
+		"phase": phase,
+		"player_id": player_id,
+		"cards": hands[player_id].duplicate() if _is_valid_player(player_id) else [],
+		"other_players_cards": other_players_cards,
+		"discarded_cards": discarded_cards.duplicate()
+	}
 
 func _advance_auction() -> void:
 	var active_count := 0
@@ -157,8 +187,8 @@ func _finish_auction(last_active_player: int) -> void:
 		hand_creation_started.emit(winner_id, highest_bid)
 		hand_creation_updated.emit(0)
 	else:
-		_auto_discard_for_ai(winner_id)
-		_finish_hand_creation()
+		if _auto_discard_for_ai(winner_id):
+			_finish_hand_creation()
 
 func _prepare_winning_hand(winner_id: int) -> void:
 	var deck = get_node_or_null("../deck")
@@ -177,25 +207,47 @@ func _prepare_winning_hand(winner_id: int) -> void:
 		winner_hand.cards[index].set_meta("hand_creation_slot", index)
 	discarded_cards.clear()
 
-func _auto_discard_for_ai(winner_id: int) -> void:
+func _auto_discard_for_ai(winner_id: int) -> bool:
 	var players = get_node_or_null("../Players")
 	var discard_pile = get_node_or_null("../piles/left_over_pile")
 	if not players or not discard_pile:
-		return
+		return false
 	var winner_hand = players.get_child(winner_id).get_node_or_null("Hand")
-	if not winner_hand:
-		return
-	var discarded := 0
-	for card in winner_hand.cards.duplicate():
-		if discarded >= 6:
-			break
-		var rank := _card_rank_name(card)
-		if rank == &"A" or rank == &"10":
-			continue
+	var ai_controller = players.get_child(winner_id).get_node_or_null("DummyAi")
+	if not winner_hand or not ai_controller or not ai_controller.has_method("choose_discard_cards"):
+		return false
+	var cards_to_discard: Array[Node2D] = ai_controller.choose_discard_cards(self, winner_id)
+	if cards_to_discard.size() != 6:
+		return false
+	for card in cards_to_discard:
+		if not winner_hand.has_card(card) or _card_rank_name(card) == &"A" or _card_rank_name(card) == &"10":
+			return false
+	for card in cards_to_discard:
 		winner_hand.remove_card_from_hand(card)
 		discard_pile.add_card_to_hand(card)
 		hands[winner_id].erase(card)
-		discarded += 1
+	_move_ai_discarded_cards_to_won_pile(winner_id, discard_pile)
+	var rebid: int = ai_controller.choose_rebid(self, winner_id)
+	if rebid > highest_bid and rebid < 500 and rebid % 5 == 0:
+		highest_bid = rebid
+		auction_history.append({"player_id": winner_id, "action": &"rebid", "amount": rebid})
+	return true
+
+func _move_ai_discarded_cards_to_won_pile(winner_id: int, discard_pile: Node2D) -> void:
+	var players = get_node_or_null("../Players")
+	if not players or winner_id < 0 or winner_id >= players.get_child_count():
+		return
+	var won_cards = players.get_child(winner_id).get_node_or_null("WonCards")
+	if not won_cards:
+		return
+	for card in discard_pile.cards.duplicate():
+		discard_pile.remove_card_from_hand(card)
+		card.reparent(won_cards)
+		card.position = Vector2((won_cards.get_child_count() - 1) * 18, 0)
+		card.z_index = won_cards.get_child_count()
+		card.set_visible_to_all()
+		if not self.won_cards[winner_id].has(card):
+			self.won_cards[winner_id].append(card)
 
 func toggle_hand_creation_card(card: Node2D) -> bool:
 	if phase != &"hand_creation" or hand_creation_player != 0:
@@ -283,6 +335,27 @@ func get_playable_cards(player_id: int) -> Array[Node2D]:
 			return trump_cards
 
 	return player_hand.duplicate()
+
+func get_gameplay_state(player_id: int) -> Dictionary:
+	var played_cards_with_players: Array[Dictionary] = []
+	for trick in completed_tricks:
+		for play in trick:
+			played_cards_with_players.append(play.duplicate())
+	for play in current_trick:
+		played_cards_with_players.append(play.duplicate())
+	return {
+		"phase": phase,
+		"player_id": player_id,
+		"cards": hands[player_id].duplicate() if _is_valid_player(player_id) else [],
+		"legal_cards": get_playable_cards(player_id),
+		"trump_suit": trump_suit,
+		"active_trump": trump_suit != &"",
+		"can_declare_trump": not get_declarable_trump_suits(player_id).is_empty(),
+		"declarable_trump_suits": get_declarable_trump_suits(player_id),
+		"played_cards": played_cards_with_players,
+		"current_trick": current_trick.duplicate(true),
+		"completed_tricks": completed_tricks.duplicate(true)
+	}
 
 func is_card_legal(player_id: int, card: Node2D) -> bool:
 	return get_playable_cards(player_id).has(card)
@@ -422,7 +495,21 @@ func _finish_round() -> void:
 	print("Round winner: Player %d with %d points" % [round_winner + 1, winning_score])
 	phase = &"round_complete"
 	round_completed.emit(round_points.duplicate(), cumulative_points.duplicate())
+	var game_winner := _get_game_winner()
+	if game_winner >= 0:
+		phase = &"game_over"
+		game_won.emit(game_winner, cumulative_points.duplicate())
+		return
 	call_deferred("_start_next_round")
+
+func _get_game_winner() -> int:
+	var winner_id := -1
+	var winning_score := 499
+	for player_id in PLAYER_COUNT:
+		if cumulative_points[player_id] >= 500 and cumulative_points[player_id] > winning_score:
+			winner_id = player_id
+			winning_score = cumulative_points[player_id]
+	return winner_id
 
 func _start_next_round() -> void:
 	if phase != &"round_complete":
