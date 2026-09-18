@@ -10,6 +10,14 @@ var played_cards_reference
 var played_cards: Array[Node2D] = []
 
 func _input(event: InputEvent) -> void:
+	if game_engine_reference and game_engine_reference.phase == &"hand_creation":
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			var selection_card = find_hand_creation_card(event.position)
+			if selection_card:
+				game_engine_reference.toggle_hand_creation_card(selection_card)
+			return
+	if game_engine_reference and game_engine_reference.phase != &"playing":
+		return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.is_pressed():
 			var card = raycast_check_for_card()
@@ -31,6 +39,22 @@ func raycast_check_for_card():
 	if result.size() > 0:
 		return get_card_with_highest_z_index(result)
 	return null
+
+func find_hand_creation_card(mouse_position: Vector2) -> Node2D:
+	var candidate_cards: Array[Node2D] = []
+	var discard_pile = get_node_or_null("../piles/left_over_pile")
+	if player_hand_reference:
+		candidate_cards.append_array(player_hand_reference.cards)
+	if discard_pile:
+		candidate_cards.append_array(discard_pile.cards)
+	for card in candidate_cards:
+		var card_transform := card.get_global_transform_with_canvas()
+		var top_left := card_transform * Vector2(-44.5, -61.0)
+		var bottom_right := card_transform * Vector2(44.5, 61.0)
+		var card_rect := Rect2(top_left, bottom_right - top_left)
+		if card_rect.has_point(mouse_position):
+			return card
+	return null
 func _ready() -> void:
 	screen_size = get_viewport_rect().size
 	call_deferred("find_player_hand")
@@ -47,9 +71,16 @@ func find_player_hand() -> void:
 	if game_engine_reference:
 		if not game_engine_reference.round_started.is_connected(update_legal_cards):
 			game_engine_reference.round_started.connect(update_legal_cards)
+		if not game_engine_reference.auction_completed.is_connected(_on_auction_completed):
+			game_engine_reference.auction_completed.connect(_on_auction_completed)
 		if not game_engine_reference.turn_changed.is_connected(_on_turn_changed):
 			game_engine_reference.turn_changed.connect(_on_turn_changed)
 		update_legal_cards()
+
+func _on_auction_completed(_winner_id: int, _winning_bid: int) -> void:
+	for card in player_hand_reference.cards:
+		connect_card_signals(card)
+	update_legal_cards()
 
 func _on_turn_changed(_player_id: int) -> void:
 	update_legal_cards()
@@ -78,17 +109,20 @@ func connect_card_signals(card):
 		card.hovered_off.connect(on_hovered_off_card)
 
 func on_hovered_card(card):
+	if not player_hand_reference or not player_hand_reference.has_card(card):
+		return
 	if !is_hovering_on_card:
 		highlight_card(card, true)
 		is_hovering_on_card = true
 func on_hovered_off_card(card):
-	if !card_being_dragged:
-		highlight_card(card,false)
-		var new_card_hovered = raycast_check_for_card()
-		if new_card_hovered and player_hand_reference.has_card(new_card_hovered):
-			highlight_card(new_card_hovered,true)
-		else:
-			is_hovering_on_card = false
+	if card_being_dragged and player_hand_reference and player_hand_reference.has_card(card):
+		return
+	highlight_card(card,false)
+	var new_card_hovered = raycast_check_for_card()
+	if new_card_hovered and player_hand_reference and player_hand_reference.has_card(new_card_hovered):
+		highlight_card(new_card_hovered,true)
+	else:
+		is_hovering_on_card = false
 	
 func highlight_card(card, hovered):
 	if hovered:

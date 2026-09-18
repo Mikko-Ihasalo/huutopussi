@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://jy8jdstmwka2"]
+
+[ext_resource type="Script" uid="uid://d0wqcgl704ds7" path="res://scripts/auction.gd" id="1_auction"]
+
+[node name="Auction" type="Control" unique_id=442586458]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 680.0
+offset_top = 438.0
+offset_right = -718.0
+offset_bottom = -438.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_auction")
+
+[node name="Panel" type="Panel" parent="." unique_id=765499842]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 102.0
+offset_right = 462.0
+offset_bottom = 352.0
+
+[node name="Contents" type="VBoxContainer" parent="Panel" unique_id=1488247543]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 368.0
+offset_bottom = 230.0
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Panel/Contents" unique_id=1771653194]
+layout_mode = 2
+text = "Auction"
+horizontal_alignment = 1
+
+[node name="Status" type="Label" parent="Panel/Contents" unique_id=1762333865]
+layout_mode = 2
+text = "Waiting..."
+horizontal_alignment = 1
+
+[node name="Bid" type="Label" parent="Panel/Contents" unique_id=915351226]
+layout_mode = 2
+text = "No bids yet"
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="Panel/Contents" unique_id=2128925896]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Pass" type="Button" parent="Panel/Contents/Buttons" unique_id=973907475]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Pass"
+
+[node name="QuickBid" type="Button" parent="Panel/Contents/Buttons" unique_id=739639993]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+5"
+
+[node name="CustomBid" type="Button" parent="Panel/Contents/Buttons" unique_id=520033800]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Custom bid"
+
+[node name="CustomBid" type="LineEdit" parent="Panel/Contents" unique_id=5454883]
+layout_mode = 2
+placeholder_text = "Custom bid (multiple of 5, under 500)"
+alignment = 1

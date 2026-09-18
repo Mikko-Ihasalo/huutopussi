@@ -5,8 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://xu11vbqia61x" path="res://scenes/game_engine.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://rcfjkil25j1o" path="res://scenes/hand.tscn" id="5_hand"]
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="5_tbgi4"]
-[ext_resource type="PackedScene" uid="uid://jy8jdstmwka2" path="res://scenes/auction.tscn" id="6_auction"]
-[ext_resource type="PackedScene" uid="uid://osmj4fkblsim" path="res://scenes/hand_creation.tscn" id="6_o6xl0"]
+[ext_resource type="PackedScene" path="res://scenes/auction.tscn" id="6_auction"]
 
 [node name="main" type="Node2D" unique_id=13089037]
 
@@ -19,40 +18,31 @@ position = Vector2(-147, -97)
 [node name="piles" type="Node" parent="." unique_id=784136598]
 
 [node name="left_over_pile" parent="piles" unique_id=1392587925 instance=ExtResource("5_hand")]
-position = Vector2(757, 756)
+position = Vector2(54, 203)
 leftover_pile = true
 
 [node name="gameEngine" parent="." unique_id=911433418 instance=ExtResource("4_jyhfs")]
 
 [node name="Auction" parent="." unique_id=243557145 instance=ExtResource("6_auction")]
-offset_left = 383.0
-offset_top = 26.0
-offset_right = 383.0
-offset_bottom = 26.0
-
-[node name="HandCreation" parent="." unique_id=1730476423 instance=ExtResource("6_o6xl0")]
 
 [node name="playedCards" type="Node2D" parent="." unique_id=104001350]
-position = Vector2(838, 761)
+position = Vector2(335, 325)
 
 [node name="Players" type="Node" parent="." unique_id=905905634]
 
 [node name="Human" parent="Players" unique_id=113920973 instance=ExtResource("5_tbgi4")]
-position = Vector2(60, 1063)
-display_name = "You"
+position = Vector2(64, 596)
 
 [node name="DummyAI1" parent="Players" unique_id=216651099 instance=ExtResource("5_tbgi4")]
-position = Vector2(1375, 1066)
+position = Vector2(633, 456)
 player_id = 1
 control_mode = 1
 is_opponent = true
 ai_move_delay = 0.3
-display_name = "AI 1"
 
 [node name="DummyAI2" parent="Players" unique_id=1379424052 instance=ExtResource("5_tbgi4")]
-position = Vector2(1365, 231)
+position = Vector2(480, 136)
 player_id = 2
 control_mode = 1
 is_opponent = true
 ai_move_delay = 0.3
-display_name = "AI 2"

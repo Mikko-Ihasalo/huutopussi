@@ -7,6 +7,7 @@ const CARD_BACK_TEXTURE = preload("res://assets/cards/card-back.png")
 @export var show_opponent_cards: bool = false
 @export var leftover_pile: bool = false
 var cards: Array[Node2D] = []
+var layout_mode: StringName = &"line"
 
 func add_card_to_hand(card: Node2D) -> void:
 	if cards.has(card):
@@ -24,6 +25,7 @@ func add_card_to_hand(card: Node2D) -> void:
 
 func remove_card_from_hand(card: Node2D) -> void:
 	if cards.has(card):
+		card.emit_signal("hovered_off", card)
 		cards.erase(card)
 		arrange_cards()
 
@@ -45,8 +47,16 @@ func has_card(card: Node2D) -> bool:
 func arrange_cards() -> void:
 	for index in cards.size():
 		var card = cards[index]
-		card.position = Vector2(index * CARD_SPACING, 0)
-		card.z_index = index
+		if layout_mode == &"selection":
+			var slot := int(card.get_meta("hand_creation_slot", index))
+			card.position = Vector2((slot % 8) * 92.0, (slot / 8) * 132.0)
+			card.z_index = slot
+		elif layout_mode == &"discard":
+			card.position = Vector2((index % 3) * 92.0, (index / 3) * 132.0)
+			card.z_index = index
+		else:
+			card.position = Vector2(index * CARD_SPACING, 0)
+			card.z_index = index
 
 func set_card_visibility(card: Node2D) -> void:
 	var image = card.get_node("Sprite2D") as Sprite2D
