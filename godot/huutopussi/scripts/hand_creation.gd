@@ -73,6 +73,7 @@ func _on_hand_creation_started(_winner_id: int, winning_bid: int) -> void:
 	if not winner_hand or not discard_pile:
 		return
 	visible = true
+	discard_pile.visible = true
 	winner_hand.layout_mode = &"selection"
 	discard_pile.layout_mode = &"discard"
 	if winner_player:
@@ -129,6 +130,7 @@ func _close() -> void:
 	if discard_pile:
 		discard_pile.layout_mode = &"line"
 		discard_pile.global_position = discard_pile_default_position
+		discard_pile.visible = false
 
 func _move_discarded_cards_to_won_pile() -> void:
 	if not discard_pile or not winner_won_cards:
@@ -138,5 +140,6 @@ func _move_discarded_cards_to_won_pile() -> void:
 		card.reparent(winner_won_cards)
 		card.position = Vector2((winner_won_cards.get_child_count() - 1) * 18, 0)
 		card.z_index = winner_won_cards.get_child_count()
+		card.set_visible_to_all(false)
 		if not game_engine.won_cards[HUMAN_PLAYER_ID].has(card):
 			game_engine.won_cards[HUMAN_PLAYER_ID].append(card)

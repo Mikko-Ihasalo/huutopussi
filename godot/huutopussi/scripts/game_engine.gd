@@ -102,6 +102,9 @@ func start_round(player_hands: Array, leader: int = 0) -> bool:
 	auction_history.clear()
 	highest_bid = 0
 	highest_bidder = -1
+	var discard_pile = get_node_or_null("../piles/left_over_pile")
+	if discard_pile:
+		discard_pile.visible = true
 	round_started.emit()
 	auction_started.emit()
 	auction_turn_changed.emit(current_player)
@@ -199,6 +202,7 @@ func _prepare_winning_hand(winner_id: int) -> void:
 	var winner_hand = players.get_child(winner_id).get_node_or_null("Hand")
 	if not winner_hand:
 		return
+	winner_hand.show_opponent_cards = winner_id == 0
 	for card in leftover_hand.cards.duplicate():
 		winner_hand.add_card_to_hand(card)
 		hands[winner_id].append(card)
@@ -245,7 +249,7 @@ func _move_ai_discarded_cards_to_won_pile(winner_id: int, discard_pile: Node2D) 
 		card.reparent(won_cards)
 		card.position = Vector2((won_cards.get_child_count() - 1) * 18, 0)
 		card.z_index = won_cards.get_child_count()
-		card.set_visible_to_all()
+		card.set_visible_to_all(false)
 		if not self.won_cards[winner_id].has(card):
 			self.won_cards[winner_id].append(card)
 
@@ -414,6 +418,7 @@ func get_declarable_trump_suits(player_id: int) -> Array[StringName]:
 func _resolve_trick() -> void:
 	var winner_id := _get_trick_winner(current_trick)
 	var completed_trick := current_trick.duplicate()
+	var winner_led_trick: bool = completed_trick[0].player_id == winner_id
 	completed_tricks.append(completed_trick)
 	for play in completed_trick:
 		won_cards[winner_id].append(play.card)
@@ -421,16 +426,35 @@ func _resolve_trick() -> void:
 	current_player = winner_id
 	current_trick.clear()
 	trick_completed.emit(winner_id, completed_trick)
+	_refresh_won_cards_visibility(completed_trick)
 
 	if completed_tricks.size() == TOTAL_TRICKS:
 		_finish_round()
 	elif manual_trick_progession:
 		phase = &"awaiting_trick_progression"
 		pending_trump_player = winner_id
-	else:
+	elif winner_led_trick:
 		phase = &"trump_declaration"
 		pending_trump_player = winner_id
 		turn_changed.emit(current_player)
+	else:
+		phase = &"playing"
+		pending_trump_player = -1
+		turn_changed.emit(current_player)
+
+func _refresh_won_cards_visibility(recent_trick: Array) -> void:
+	var players = get_node_or_null("../Players")
+	if not players:
+		return
+	for player in players.get_children():
+		var won_cards = player.get_node_or_null("WonCards")
+		if not won_cards:
+			continue
+		for card in won_cards.get_children():
+			card.set_visible_to_all(false)
+	for play in recent_trick:
+		var card: Node2D = play.card
+		card.visible = true
 
 func _get_trick_winner(trick: Array[Dictionary]) -> int:
 	var led_suit: StringName = _card_suit(trick[0].card)

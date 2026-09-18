@@ -61,4 +61,9 @@ custom_minimum_size = Vector2(70, 28)
 layout_mode = 2
 text = "Spades"
 
+[node name="Continue" type="Button" parent="TrumpControls/Buttons" unique_id=1847636562]
+custom_minimum_size = Vector2(90, 28)
+layout_mode = 2
+text = "Continue"
+
 [node name="DummyAi" parent="." unique_id=153261629 instance=ExtResource("3_ai")]

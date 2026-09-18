@@ -17,6 +17,7 @@ func add_card_to_hand(card: Node2D) -> void:
 	else:
 		add_child(card)
 	cards.append(card)
+	card.visible = true
 	card.visible_to_all = false
 	card.legal_card = false
 	card.activate_bloom()

@@ -3,6 +3,8 @@ extends Node2D
 signal hovered
 signal hovered_off
 
+const CARD_BACK_TEXTURE = preload("res://assets/cards/card-back.png")
+
 var legal_card: bool = false
 @export var visible_to_all: bool = false
 var position_in_hand
@@ -32,6 +34,8 @@ func set_visible_to_all(visible: bool = true) -> void:
 	visible_to_all = visible
 	if visible_to_all:
 		get_node("Sprite2D").show_face()
+	else:
+		get_node("Sprite2D").texture = CARD_BACK_TEXTURE
 
 func activate_bloom() -> void:
 	var card_hand = get_parent()

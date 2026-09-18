@@ -9,7 +9,7 @@ size = Vector2(89, 122)
 [sub_resource type="Environment" id="Environment_y520c"]
 background_mode = 3
 glow_enabled = true
-glow_map_strength = 0.3
+glow_intensity = 0.0
 
 [node name="card" type="Node2D" unique_id=9501052]
 script = ExtResource("1_6u4wf")

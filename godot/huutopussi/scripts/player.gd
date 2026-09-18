@@ -16,6 +16,7 @@ enum ControlMode { HUMAN, DUMMY_AI }
 @onready var points_label: Label = $PlayerInfo/Points
 @onready var bid_label: Label = $PlayerInfo/Bid
 @onready var trump_buttons: HBoxContainer = $TrumpControls/Buttons
+@onready var continue_trump_button: Button = $TrumpControls/Buttons/Continue
 
 var game_engine: Node
 var played_cards_view: Node2D
@@ -48,10 +49,15 @@ func _setup_trump_controls() -> void:
 	for suit in suits:
 		var button := trump_buttons.get_node(suit.capitalize()) as Button
 		button.pressed.connect(_on_trump_button_pressed.bind(StringName(suit)))
+	continue_trump_button.pressed.connect(_on_continue_trump_pressed)
 	_update_trump_controls()
 
 func _on_trump_button_pressed(suit: StringName) -> void:
 	if game_engine and game_engine.declare_trump(player_id, suit):
+		_update_trump_controls.call_deferred()
+
+func _on_continue_trump_pressed() -> void:
+	if game_engine and game_engine.continue_after_trick(player_id):
 		_update_trump_controls.call_deferred()
 
 func _update_trump_controls() -> void:
@@ -60,7 +66,10 @@ func _update_trump_controls() -> void:
 	var is_decision_player: bool = game_engine.phase == &"trump_declaration" and game_engine.pending_trump_player == player_id
 	var declarable_suits: Array[StringName] = game_engine.get_declarable_trump_suits(player_id)
 	for button in trump_buttons.get_children():
-		button.disabled = not is_decision_player or not declarable_suits.has(StringName(button.name.to_lower()))
+		if button == continue_trump_button:
+			button.disabled = not is_decision_player
+		else:
+			button.disabled = not is_decision_player or not declarable_suits.has(StringName(button.name.to_lower()))
 
 func _update_player_info() -> void:
 	name_label.text = display_name if not display_name.is_empty() else "Player %d" % (player_id + 1)
@@ -122,6 +131,8 @@ func _continue_after_trick() -> void:
 		var suit: StringName = ai_controller.choose_trump(game_engine, player_id)
 		if suit != &"":
 			game_engine.declare_trump(player_id, suit)
+		else:
+			game_engine.continue_after_trick(player_id)
 
 func _play_ai_turn() -> void:
 	if not game_engine or game_engine.phase != &"playing" or game_engine.current_player != player_id:
