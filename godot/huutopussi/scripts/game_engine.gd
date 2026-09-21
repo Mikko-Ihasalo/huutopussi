@@ -295,12 +295,20 @@ func finish_hand_creation_with_bid(bid_amount: int) -> bool:
 	return true
 
 func _finish_hand_creation() -> void:
+	_commit_discarded_cards_to_won_cards()
 	var leader_id := highest_bidder if highest_bidder >= 0 else current_player
 	phase = &"playing"
 	hand_creation_player = -1
 	current_leader = leader_id
 	current_player = leader_id
 	turn_changed.emit(current_player)
+
+func _commit_discarded_cards_to_won_cards() -> void:
+	if not _is_valid_player(hand_creation_player):
+		return
+	for card: Node2D in discarded_cards:
+		if not won_cards[hand_creation_player].has(card):
+			won_cards[hand_creation_player].append(card)
 
 func get_playable_cards(player_id: int) -> Array[Node2D]:
 	if not _is_valid_player(player_id) or phase != &"playing" or current_player != player_id:

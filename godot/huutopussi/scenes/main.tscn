@@ -21,17 +21,17 @@ position = Vector2(-147, -97)
 [node name="piles" type="Node" parent="." unique_id=784136598]
 
 [node name="left_over_pile" parent="piles" unique_id=1392587925 instance=ExtResource("5_hand")]
-position = Vector2(757, 756)
+position = Vector2(527, 468)
 is_opponent = true
 leftover_pile = true
 
 [node name="gameEngine" parent="." unique_id=911433418 instance=ExtResource("4_jyhfs")]
 
 [node name="TrumpDisplay" type="Label" parent="." unique_id=183046774]
-offset_left = 835.0
-offset_top = 24.0
-offset_right = 1085.0
-offset_bottom = 58.0
+offset_left = 604.0
+offset_top = 21.0
+offset_right = 854.0
+offset_bottom = 55.0
 theme_override_font_sizes/font_size = 24
 text = "Trump: None"
 horizontal_alignment = 1
@@ -55,16 +55,16 @@ offset_bottom = 26.0
 [node name="HandCreation" parent="." unique_id=1730476423 instance=ExtResource("6_o6xl0")]
 
 [node name="playedCards" type="Node2D" parent="." unique_id=104001350]
-position = Vector2(838, 761)
+position = Vector2(773, 452)
 
 [node name="Players" type="Node" parent="." unique_id=905905634]
 
 [node name="Human" parent="Players" unique_id=113920973 instance=ExtResource("5_tbgi4")]
-position = Vector2(60, 1063)
+position = Vector2(52, 656)
 display_name = "You"
 
 [node name="DummyAI1" parent="Players" unique_id=216651099 instance=ExtResource("5_tbgi4")]
-position = Vector2(1375, 1066)
+position = Vector2(984, 669)
 player_id = 1
 control_mode = 1
 is_opponent = true
@@ -72,7 +72,7 @@ ai_move_delay = 0.3
 display_name = "AI 1"
 
 [node name="DummyAI2" parent="Players" unique_id=1379424052 instance=ExtResource("5_tbgi4")]
-position = Vector2(1365, 231)
+position = Vector2(992, 148)
 player_id = 2
 control_mode = 1
 is_opponent = true
