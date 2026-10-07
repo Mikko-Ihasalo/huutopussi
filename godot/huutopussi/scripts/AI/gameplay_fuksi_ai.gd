@@ -1,5 +1,4 @@
 extends Node
-class_name GameplayAI
 
 var game_engine: Node
 var player_id: int = -1

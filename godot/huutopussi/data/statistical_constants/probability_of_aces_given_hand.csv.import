@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dv3wr8wggxqy5"
+
+[deps]
+
+files=["res://data/statistical_constants/probability_of_aces_given_hand.prob.translation", "res://data/statistical_constants/probability_of_aces_given_hand.prob.translation", "res://data/statistical_constants/probability_of_aces_given_hand.prob.translation", "res://data/statistical_constants/probability_of_aces_given_hand.prob.translation", "res://data/statistical_constants/probability_of_aces_given_hand.prob.translation"]
+
+source_file="res://data/statistical_constants/probability_of_aces_given_hand.csv"
+dest_files=["res://data/statistical_constants/probability_of_aces_given_hand.prob.translation", "res://data/statistical_constants/probability_of_aces_given_hand.prob.translation", "res://data/statistical_constants/probability_of_aces_given_hand.prob.translation", "res://data/statistical_constants/probability_of_aces_given_hand.prob.translation", "res://data/statistical_constants/probability_of_aces_given_hand.prob.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

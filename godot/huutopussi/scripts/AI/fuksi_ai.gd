@@ -1,10 +1,10 @@
 extends Node2D
 
-const DUMMY_BIDDING_AI = preload("res://scripts/AI/bidding_fuksi_ai.gd")
-const DUMMY_GAMEPLAY_AI = preload("res://scripts/AI/dummy_gameplay_ai.gd")
+const FUKSI_BIDDING_AI = preload("res://scripts/AI/bidding_fuksi_ai.gd")
+const FUKSI_GAMEPLAY_AI = preload("res://scripts/AI/dummy_gameplay_ai.gd") # temp uses dummy model
 
-var bidding_brain := DUMMY_BIDDING_AI.new()
-var gameplay_brain := DUMMY_GAMEPLAY_AI.new()
+var bidding_brain := FUKSI_BIDDING_AI.new()
+var gameplay_brain := FUKSI_GAMEPLAY_AI.new()
 
 func wait(seconds: float) -> void:
 	await get_tree().create_timer(seconds).timeout

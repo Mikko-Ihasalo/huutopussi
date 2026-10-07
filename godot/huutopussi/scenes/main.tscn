@@ -68,7 +68,8 @@ position = Vector2(984, 669)
 player_id = 1
 control_mode = 1
 is_opponent = true
-ai_move_delay = 0.3
+show_opponent_cards = true
+ai_move_delay = 1.0
 display_name = "AI 1"
 
 [node name="DummyAI2" parent="Players" unique_id=1379424052 instance=ExtResource("5_tbgi4")]
@@ -76,5 +77,6 @@ position = Vector2(992, 148)
 player_id = 2
 control_mode = 1
 is_opponent = true
-ai_move_delay = 0.3
+show_opponent_cards = true
+ai_move_delay = 1.0
 display_name = "AI 2"
